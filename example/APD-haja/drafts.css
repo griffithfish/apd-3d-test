@@ -1,0 +1,35 @@
+body {
+    margin: 0;
+    padding: 0;
+  }
+  
+  #3d-graph-labels {
+     position: absolute;
+    top: 0;
+  }
+  #force-directed-graph {
+    position: absolute;
+    top: 0;
+  }
+  #3d-graph-labels {
+    z-index: 99;
+  }
+  
+  .label {
+    background: #213036;
+    border-radius: 0.2em;
+    color: white;
+    padding: 0.3em;
+    display: block;
+  }
+  
+  .palette {
+    padding: 0.2em;
+    display: inline-block;
+    color: white;
+  }
+  .palette.color-1 { background: #213036 }
+  .palette.color-2 { background: #265500 }
+  .palette.color-3 { background: #96d800 }
+  .palette.color-4 { background: #f58f92 }
+  .palette.color-5 { background: #b7241b }

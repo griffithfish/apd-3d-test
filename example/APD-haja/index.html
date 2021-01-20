@@ -1,0 +1,135 @@
+<head>
+  <style> body { margin: 0; } </style>
+
+  <!--<script src="//unpkg.com/3d-force-graph"></script>-->
+  <script src="https://unpkg.com/three"></script>
+  <script src="https://unpkg.com/three-spritetext"></script>
+  <script src="../../dist/3d-force-graph.js"></script>
+  <script src="../../src/threex.dynamictexture.js"></script>
+</head>
+
+<body>
+  <div id="3d-graph"></div>
+
+  <script type="module">
+   // import * as THREE from 'https://unpkg.com/three/build/three.module.js'
+    // Random tree
+    const N = 10;
+    const gData1 = {
+      nodes: [...Array(N).keys()].map(i => ({ id: i })),
+      links: [...Array(N).keys()]
+        .filter(id => id)
+        .map(id => ({
+          source: id,
+          target: Math.round(Math.random() * (id-1))
+        }))
+    };
+     //const gData = { "nodes":[{ "id":"1", "text":"AD Server", "type":"agent", "state":"ALL" },{ "id":"101", "text":"root", "type":"user", "state":"OUTGOING" },{ "id":"102", "text":"/home/bushido/components/agent", "type":"command", "state":"OUTGOING" },{ "id":"103", "text":"9093", "type":"foreignPort", "state":"OUTGOING" },{ "id":"104", "text":"3.3.3.3", "type":"foreignAddress", "state":"OUTGOING" }, { "id":"105", "text":"bushido", "type":"user", "state":"LISTEN" },{ "id":"106", "text":"java\\-Duser\\.timezone\u003dUTC", "type":"command", "state":"LISTEN" },{ "id":"107", "text":"9666", "type":"localPort", "state":"OUTGOING" }, { "id":"108", "text":"/home/bushido/components/java/bin", "type":"command", "state":"LISTEN" },{ "id":"109", "text":"9093", "type":"localPort", "state":"LISTEN" }, { "id":"110", "text":"2181", "type":"localPort", "state":"INCOMING" },{ "id":"111", "text":"10.179.143.146", "type":"foreignAddress", "state":"INCOMING" }, { "id":"112", "text":"8090", "type":"foreignPort", "state":"OUTGOING" },{ "id":"113", "text":"testnew::", "type":"foreignAddress", "state":"OUTGOING" }, { "id":"114", "text":"components/redis/bin/redis", "type":"command", "state":"OUTGOING" },{ "id":"115", "text":"53", "type":"foreignPort", "state":"OUTGOING" },{ "id":"116", "text":"10.179.150.152", "type":"foreignAddress", "state":"OUTGOING" }, { "id":"117", "text":"ssh\\-idevtesting\\.pem", "type":"command", "state":"OUTGOING" },{ "id":"118", "text":"22", "type":"foreignPort", "state":"OUTGOING" },{ "id":"119", "text":"10.179.11.190", "type":"foreignAddress", "state":"OUTGOING" }], "links":[{ "source":"1", "target":	"101" },{ "source":"101", "target":"102" },{ "source":"102", "target":"103" },{ "source":"103", "target":"104" },{ "source":"1", "target":"105" },{ "source":"105", "target":"106" },{ "source":"106", "target":"107" },{ "source":"105", "target":"108" },{ "source":"108", "target":"109" },{ "source":"108", "target":"110" },{ "source":"110", "target":"111" },{ "source":"101", "target":"112" },{ "source":"112", "target":"113" },{ "source":"101", "target":"114" },{ "source":"114", "target":"115" },{ "source":"115", "target":"116" },{ "source":"105", "target":"117" },{ "source":"117", "target":"118" },{ "source":"118", "target":"119" }] };
+     //const gData = { "nodes":[{ "id":"1", "text":"AD Server", "type":"agent", "state":"ALL", fx:0, fy:0, fz:-10 },{ "id":"101", "text":"root", "type":"user", "state":"OUTGOING", fx:50, fy:50, fz:-5 },{ "id":"102", "text":"/home/bushido/components/agent", "type":"command", "state":"OUTGOING", fx:100, fy:50, fz:-5 },{ "id":"103", "text":"9093", "type":"foreignPort", "state":"OUTGOING", fx:200, fy:50, fz:-5 },{ "id":"104", "text":"3.3.3.3", "type":"foreignAddress", "state":"OUTGOING", fx:250, fy:50, fz:-5 }, { "id":"105", "text":"bushido", "type":"user", "state":"LISTEN", fx:50, fy:100, fz:-5 },{ "id":"106", "text":"java\\-Duser\\.timezone\u003dUTC", "type":"command", "state":"LISTEN", fx:100, fy:100, fz:-5 },{ "id":"107", "text":"9666", "type":"localPort", "state":"OUTGOING", fx:150, fy:50, fz:-5 }, { "id":"108", "text":"/home/bushido/components/java/bin", "type":"command", "state":"LISTEN", fx:100, fy:150, fz:-5 },{ "id":"109", "text":"9093", "type":"localPort", "state":"LISTEN", fx:150, fy:100, fz:-5 }, { "id":"110", "text":"2181", "type":"localPort", "state":"INCOMING", fx:150, fy:150, fz:-5 },{ "id":"111", "text":"10.179.143.146", "type":"foreignAddress", "state":"INCOMING", fx:250, fy:100, fz:-5 }, { "id":"112", "text":"8090", "type":"foreignPort", "state":"OUTGOING", fx:200, fy:100, fz:-5 },{ "id":"113", "text":"testnew::", "type":"foreignAddress", "state":"OUTGOING", fx:250, fy:150, fz:-5 }, { "id":"114", "text":"components/redis/bin/redis", "type":"command", "state":"OUTGOING", fx:100, fy:200, fz:-5 },{ "id":"115", "text":"53", "type":"foreignPort", "state":"OUTGOING", fx:200, fy:150, fz:-5 },{ "id":"116", "text":"10.179.150.152", "type":"foreignAddress", "state":"OUTGOING", fx:250, fy:200, fz:-5 }, { "id":"117", "text":"ssh\\-idevtesting\\.pem", "type":"command", "state":"OUTGOING", fx:100, fy:250, fz:-5 },{ "id":"118", "text":"22", "type":"foreignPort", "state":"OUTGOING", fx:200, fy:200, fz:-5 },{ "id":"119", "text":"10.179.11.190", "type":"foreignAddress", "state":"OUTGOING", fx:250, fy:250, fz:-5 }], "links":[{ "source":"1", "target":	"101" },{ "source":"101", "target":"102" },{ "source":"102", "target":"103" },{ "source":"103", "target":"104" },{ "source":"1", "target":"105" },{ "source":"105", "target":"106" },{ "source":"106", "target":"107" },{ "source":"105", "target":"108" },{ "source":"108", "target":"109" },{ "source":"108", "target":"110" },{ "source":"110", "target":"111" },{ "source":"101", "target":"112" },{ "source":"112", "target":"113" },{ "source":"101", "target":"114" },{ "source":"114", "target":"115" },{ "source":"115", "target":"116" },{ "source":"105", "target":"117" },{ "source":"117", "target":"118" },{ "source":"118", "target":"119" }] };
+    //const gData = { "nodes":[{ "id":"1", "text":"AD Server", "type":"agent", "state":"ALL", fx:0, fy:0, fz:-100 },{ "id":"101", "text":"root", "type":"user", "state":"OUTGOING", fx:50, fy:-100, fz:-50 },{ "id":"102", "text":"/home/bushido/components/agent", "type":"command", "state":"OUTGOING", fx:100, fy:-100, fz:-50 },{ "id":"103", "text":"9093", "type":"foreignPort", "state":"OUTGOING", fx:200, fy:-100, fz:-50 },{ "id":"104", "text":"3.3.3.3", "type":"foreignAddress", "state":"OUTGOING", fx:250, fy:-100, fz:-50 }, { "id":"105", "text":"bushido", "type":"user", "state":"LISTEN", fx:50, fy:-50, fz:-50 },{ "id":"106", "text":"java\\-Duser\\.timezone\u003dUTC", "type":"command", "state":"LISTEN", fx:100, fy:-50, fz:-50 },{ "id":"107", "text":"9666", "type":"localPort", "state":"OUTGOING", fx:150, fy:-100, fz:-50 }, { "id":"108", "text":"/home/bushido/components/java/bin", "type":"command", "state":"LISTEN", fx:100, fy:0, fz:-50 },{ "id":"109", "text":"9093", "type":"localPort", "state":"LISTEN", fx:150, fy:-50, fz:-50 }, { "id":"110", "text":"2181", "type":"localPort", "state":"INCOMING", fx:150, fy:0, fz:-50 },{ "id":"111", "text":"10.179.143.146", "type":"foreignAddress", "state":"INCOMING", fx:250, fy:-50, fz:-50 }, { "id":"112", "text":"8090", "type":"foreignPort", "state":"OUTGOING", fx:200, fy:-50, fz:-50 },{ "id":"113", "text":"testnew::", "type":"foreignAddress", "state":"OUTGOING", fx:250, fy:0, fz:-50 }, { "id":"114", "text":"components/redis/bin/redis", "type":"command", "state":"OUTGOING", fx:100, fy:50, fz:-50 },{ "id":"115", "text":"53", "type":"foreignPort", "state":"OUTGOING", fx:200, fy:0, fz:-50 },{ "id":"116", "text":"10.179.150.152", "type":"foreignAddress", "state":"OUTGOING", fx:250, fy:50, fz:-50 }, { "id":"117", "text":"ssh\\-idevtesting\\.pem", "type":"command", "state":"OUTGOING", fx:100, fy:100, fz:-50 },{ "id":"118", "text":"22", "type":"foreignPort", "state":"OUTGOING", fx:200, fy:50, fz:-50 },{ "id":"119", "text":"10.179.11.190", "type":"foreignAddress", "state":"OUTGOING", fx:250, fy:100, fz:-50 }], "links":[{ "source":"1", "target":	"101" },{ "source":"101", "target":"102" },{ "source":"102", "target":"103" },{ "source":"103", "target":"104" },{ "source":"1", "target":"105" },{ "source":"105", "target":"106" },{ "source":"106", "target":"107" },{ "source":"105", "target":"108" },{ "source":"108", "target":"109" },{ "source":"108", "target":"110" },{ "source":"110", "target":"111" },{ "source":"101", "target":"112" },{ "source":"112", "target":"113" },{ "source":"101", "target":"114" },{ "source":"114", "target":"115" },{ "source":"115", "target":"116" },{ "source":"105", "target":"117" },{ "source":"117", "target":"118" },{ "source":"118", "target":"119" }] };
+    //minimum data with proper placing - 1 level
+    //const gData = { "nodes":[{ "id":"1", "text":"AD Server", "type":"agent", "state":"ALL", fx:-300, fy:0, fz:-100 },{ "id":"101", "text":"root", "type":"user", "state":"OUTGOING", fx:-200, fy:-100, fz:-50 },{ "id":"102", "text":"/home/bushido/components/agent", "type":"command", "state":"OUTGOING", fx:-100, fy:-100, fz:-50 },{ "id":"103", "text":"9093", "type":"foreignPort", "state":"OUTGOING", fx:100, fy:-100, fz:-50 },{ "id":"104", "text":"3.3.3.3", "type":"foreignAddress", "state":"OUTGOING", fx:200, fy:-100, fz:-50 }, { "id":"105", "text":"bushido", "type":"user", "state":"LISTEN", fx:-200, fy:50, fz:-50 },{ "id":"106", "text":"java\\-Duser\\.timezone\u003dUTC", "type":"command", "state":"LISTEN", fx:-100, fy:-50, fz:-50 },{ "id":"107", "text":"9666", "type":"localPort", "state":"OUTGOING", fx:0, fy:-100, fz:-50 }, { "id":"108", "text":"/home/bushido/components/java/bin", "type":"command", "state":"LISTEN", fx:-100, fy:0, fz:-50 },{ "id":"109", "text":"9093", "type":"localPort", "state":"LISTEN", fx:0, fy:-50, fz:-50 }, { "id":"110", "text":"2181", "type":"localPort", "state":"INCOMING", fx:0, fy:0, fz:-50 },{ "id":"111", "text":"10.179.143.146", "type":"foreignAddress", "state":"INCOMING", fx:200, fy:-50, fz:-50 }, { "id":"112", "text":"8090", "type":"foreignPort", "state":"OUTGOING", fx:100, fy:-50, fz:-50 },{ "id":"113", "text":"testnew::", "type":"foreignAddress", "state":"OUTGOING", fx:200, fy:0, fz:-50 }, { "id":"114", "text":"components/redis/bin/redis", "type":"command", "state":"OUTGOING", fx:-100, fy:50, fz:-50 },{ "id":"115", "text":"53", "type":"foreignPort", "state":"OUTGOING", fx:100, fy:0, fz:-50 },{ "id":"116", "text":"10.179.150.152", "type":"foreignAddress", "state":"OUTGOING", fx:200, fy:50, fz:-50 }, { "id":"117", "text":"ssh\\-idevtesting\\.pem", "type":"command", "state":"OUTGOING", fx:-100, fy:100, fz:-50 },{ "id":"118", "text":"22", "type":"foreignPort", "state":"OUTGOING", fx:100, fy:50, fz:-50 },{ "id":"119", "text":"10.179.11.190", "type":"foreignAddress", "state":"OUTGOING", fx:200, fy:100, fz:-50 }], "links":[{ "source":"1", "target":	"101" },{ "source":"101", "target":"102" },{ "source":"102", "target":"103" },{ "source":"103", "target":"104" },{ "source":"1", "target":"105" },{ "source":"105", "target":"106" },{ "source":"106", "target":"107" },{ "source":"105", "target":"108" },{ "source":"108", "target":"109" },{ "source":"108", "target":"110" },{ "source":"110", "target":"111" },{ "source":"101", "target":"112" },{ "source":"112", "target":"113" },{ "source":"101", "target":"114" },{ "source":"114", "target":"115" },{ "source":"115", "target":"116" },{ "source":"105", "target":"117" },{ "source":"117", "target":"118" },{ "source":"118", "target":"119" }] }; 
+    //test- user 2nd level
+    const gData = { "nodes":[{ "id":"1", "text":"AD Server", "type":"agent", "state":"ALL", fx:-300, fy:0, fz:-100 },{ "id":"101", "text":"root", "type":"user", "state":"OUTGOING", fx:-200, fy:-100, fz:-50 },{ "id":"102", "text":"/home/bushido/components/agent", "type":"command", "state":"OUTGOING", fx:-100, fy:-100, fz:-50 },{ "id":"103", "text":"9093", "type":"foreignPort", "state":"OUTGOING", fx:100, fy:-100, fz:-50 },{ "id":"104", "text":"3.3.3.3", "type":"foreignAddress", "state":"OUTGOING", fx:200, fy:-100, fz:-50 }, { "id":"105", "text":"haja", "type":"user", "state":"LISTEN", fx:-200, fy:50, fz:-50 },{ "id":"106", "text":"java\\-Duser\\.timezone\u003dUTC", "type":"command", "state":"LISTEN", fx:-100, fy:-50, fz:-50 },{ "id":"107", "text":"9666", "type":"localPort", "state":"OUTGOING", fx:0, fy:-100, fz:-50 }, { "id":"108", "text":"/home/bushido/components/java/bin", "type":"command", "state":"LISTEN", fx:-100, fy:0, fz:-50 },{ "id":"109", "text":"9093", "type":"localPort", "state":"LISTEN", fx:0, fy:-50, fz:-50 }, { "id":"110", "text":"2181", "type":"localPort", "state":"INCOMING", fx:0, fy:0, fz:-50 },{ "id":"111", "text":"10.179.143.146", "type":"foreignAddress", "state":"INCOMING", fx:200, fy:-50, fz:-50 }, { "id":"112", "text":"8090", "type":"foreignPort", "state":"OUTGOING", fx:100, fy:-50, fz:-50 },{ "id":"113", "text":"testnew::", "type":"foreignAddress", "state":"OUTGOING", fx:200, fy:0, fz:-50 }, { "id":"114", "text":"components/redis/bin/redis", "type":"command", "state":"OUTGOING", fx:-100, fy:50, fz:-50 },{ "id":"115", "text":"53", "type":"foreignPort", "state":"OUTGOING", fx:100, fy:0, fz:-50 },{ "id":"116", "text":"10.179.150.152", "type":"foreignAddress", "state":"OUTGOING", fx:200, fy:50, fz:-50 }, { "id":"117", "text":"ssh\\-idevtesting\\.pem", "type":"command", "state":"OUTGOING", fx:-100, fy:100, fz:-50 },{ "id":"118", "text":"22", "type":"foreignPort", "state":"OUTGOING", fx:100, fy:50, fz:-50 },{ "id":"119", "text":"10.179.11.190", "type":"foreignAddress", "state":"OUTGOING", fx:200, fy:100, fz:-50 },{ "id":"120", "text":"bushido", "type":"user", "state":"OUTGOING", fx:-200, fy:-100, fz:-150 },{ "id":"121", "text":"admin", "type":"user", "state":"LISTEN", fx:-200, fy:50, fz:-150 }], "links":[{ "source":"1", "target":	"101" },{ "source":"101", "target":"102" },{ "source":"102", "target":"103" },{ "source":"103", "target":"104" },{ "source":"1", "target":"105" },{ "source":"105", "target":"106" },{ "source":"106", "target":"107" },{ "source":"105", "target":"108" },{ "source":"108", "target":"109" },{ "source":"108", "target":"110" },{ "source":"110", "target":"111" },{ "source":"101", "target":"112" },{ "source":"112", "target":"113" },{ "source":"101", "target":"114" },{ "source":"114", "target":"115" },{ "source":"115", "target":"116" },{ "source":"105", "target":"117" },{ "source":"117", "target":"118" },{ "source":"118", "target":"119" },{ "source":"1", "target":"120" },{ "source":"1", "target":"121" }] };
+    const nodeColor = {
+        agent: "red",
+        user: "yellow",
+        command: "white",
+        foreignPort: "lightblue",
+        foreignAddress: "orange",
+        localPort: "green"
+      }
+    const Graph = ForceGraph3D()
+      (document.getElementById('3d-graph'))
+      .graphData(gData)
+      .linkCurvature(0.05)
+      .nodeThreeObject(node => {
+          const sprite = new SpriteText(node.text);
+          sprite.color = nodeColor[node.type];
+          sprite.textHeight = 8;
+          return sprite;
+        })
+        .linkDirectionalArrowLength(5)
+        .linkDirectionalArrowRelPos(1)
+        .linkColor('lightgreen')
+        .linkWidth(0.8)
+        .nodeOpacity(1)
+        .onNodeClick(node => {
+          // Aim at node from outside it
+          const distance = 150;
+          const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
+
+          Graph.cameraPosition(
+            { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio/16 }, // new position
+            node, // lookAt ({ x, y, z })
+            3000  // ms transition duration
+          );
+        });
+
+        var dynamictexture = new THREEx.DynamicTexture(512, 512);
+        dynamictexture.context.font = "bolder 60px arial";
+        //dynamictexture.texture.anisotropy = renderer.getMaxAnisotropy()
+        dynamictexture.texture.needsUpdate = true;
+        dynamictexture.clear('#d35400').drawText('Port', 200, 100, 'white');
+        var face_textures = dynamictexture;
+
+        const planeGeometry = new THREE.PlaneGeometry(50, 250, 1, 1);
+        const planeMaterial = new THREE.MeshLambertMaterial({color: 0xFF0000, 
+                                                            //side: THREE.DoubleSide,
+                                                            opacity: 0.4,
+                                                            transparent: true,
+                                                            map: face_textures.texture});
+        const mesh = new THREE.Mesh(planeGeometry, planeMaterial);
+        mesh.position.set(-210, 0, -75);
+        Graph.scene().add(mesh);
+
+        const planeMaterial1 = new THREE.MeshLambertMaterial({color: 0xFF0000, 
+                                                            //side: THREE.DoubleSide,
+                                                            opacity: 0.2,
+                                                            transparent: true});
+        //
+        const mesh2 = new THREE.Mesh(planeGeometry, planeMaterial1);
+        mesh2.position.set(-210, 0, -150);
+        Graph.scene().add(mesh2);
+        //mesh.rotation.set(0.5 * Math.PI, 0, 0);
+        //5
+        const planeMaterial2 = new THREE.MeshLambertMaterial({color: 0x454B45, 
+                                                            //side: THREE.DoubleSide,
+                                                            opacity: 0.4,
+                                                            transparent: true});
+                                                            
+        const mesh3 = new THREE.Mesh(planeGeometry, planeMaterial2);
+        mesh3.position.set(210, 0, -75);
+        Graph.scene().add(mesh3);
+        //4
+        const planeMaterial4 = new THREE.MeshLambertMaterial({color: 0xFFBB33, 
+                                                            //side: THREE.DoubleSide,
+                                                            opacity: 0.4,
+                                                            transparent: true});
+                                                            
+        const mesh4 = new THREE.Mesh(planeGeometry, planeMaterial4);
+        mesh4.position.set(110, 0, -75);
+        Graph.scene().add(mesh4);
+        //3
+        const planeMaterial5 = new THREE.MeshLambertMaterial({color: 0x1F5A21, 
+                                                            //side: THREE.DoubleSide,
+                                                            opacity: 0.4,
+                                                            transparent: true});
+                                                            
+        const mesh5 = new THREE.Mesh(planeGeometry, planeMaterial5);
+        mesh5.position.set(0, 0, -75);
+        Graph.scene().add(mesh5);
+        //2
+        const planeMaterial6 = new THREE.MeshLambertMaterial({color: 0x08459D, 
+                                                            //side: THREE.DoubleSide,
+                                                            opacity: 0.4,
+                                                            transparent: true});
+                                                            
+        const mesh6 = new THREE.Mesh(planeGeometry, planeMaterial6);
+        mesh6.position.set(-110, 0, -75);
+        Graph.scene().add(mesh6);
+
+        // Spread nodes a little wider
+      //Graph.d3Force('charge').strength(-150);
+  </script>
+</body>
